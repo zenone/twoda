@@ -108,9 +108,9 @@ def run(tweet_image):
     media_id = None
     tw = Twoda(config_file_path, config_filename)
     if tweet_image:
-        print("[*] Getting animated gif from Giphy...")
+        print("[*] Getting animated GIF from Giphy...")
         image = tw.get_animated_gif()
-        print("[*] Uploading animated gif to Twitter...")
+        print("[*] Uploading animated GIF to Twitter...")
         media_id = tw.upload_image(image)
         print("[+] Media ID: {}".format(media_id))
         tweet = tw.generate_hashtags()
