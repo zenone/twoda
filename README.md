@@ -54,6 +54,38 @@ You will also need to edit a few lines in my_twitter_bot.py:
 
 Change `config_file_path` to point to the path where your config.txt, quotes files, and hashtags.txt file are located. You'll probably want to leave `config_filename` alone.  As for `geolocation`;  set it to *True* if you want random coordinates (latitude and longitude in North America) used for your tweets. Set it to `False` if you don't.
 
+Usage
+=====
+
+    $ ./my_twitter_bot.py --help
+    Usage:
+        my_twitter_bot.py
+        my_twitter_bot.py -s <hours>
+        my_twitter_bot.py -i
+        my_twitter_bot.py -i -s <hours>
+        my_twitter_bot.py -h | --help
+        my_twitter_bot.py --version
+    
+    Options:
+        -s            Sleep before executing
+        -h --help     Show this help information
+        --version     Show version
+    
+    Arguments:
+        hours         Number of hours to sleep
+
+Below are example cron entries showing how the `-s` option can be used to have tweets posted randomly throughout the day.
+
+Scheduling
+=========
+The first cron entry example will post a tweet at a random time every five hours:
+
+    0 */5 * * * /path/to/python  /apps/twoda/my_twitter_bot.py -s 5
+
+The next cron entry example will post a tweet with an image at a random time every 20 hours:
+
+    0 */20 * * * /path/to/python  /apps/twoda/my_twitter_bot.py -i -s 20
+
 ----------
 
 Twitter API Documentation
