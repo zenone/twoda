@@ -43,6 +43,9 @@ base_twitter_media_url = "https://upload.twitter.com/1.1/"
 # Base URL for Giphy
 base_giphy_url = "https://api.giphy.com/v1/gifs/search"
 
+# user-agent
+user_agent = "Twoda v1.0"
+
 
 class Twoda(object):
     """
@@ -71,7 +74,7 @@ class Twoda(object):
         self.hashtags_file = base_path + configs['hashtags_file']
         self.quotes_file1 = base_path + configs['quotes_file1']
         self.quotes_file2 = base_path + configs['quotes_file2']
-        self.user_agent = {'user-agent': configs['user-agent']}
+        self.user_agent = {'user-agent': user_agent}
         self.oauth = OAuth1(client_key, client_secret, token, token_secret)
 
     def generate_tweet(self):
