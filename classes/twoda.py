@@ -6,6 +6,9 @@
 #  - https://dev.twitter.com/rest/public/uploading-media
 #  - https://dev.twitter.com/rest/reference/get/trends/place
 #
+# Twitter Terms of Service
+#  - https://twitter.com/tos
+#
 # Giphy API Documentation
 #  - https://github.com/giphy/GiphyAPI
 #

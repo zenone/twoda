@@ -10,6 +10,9 @@
 #  - https://dev.twitter.com/rest/public/uploading-media
 #  - https://dev.twitter.com/rest/reference/get/trends/place
 #
+# Twitter Terms of Service
+#  - https://twitter.com/tos
+#
 # Giphy API Documentation
 #  - https://github.com/giphy/GiphyAPI
 #
@@ -54,7 +57,7 @@ from classes.twoda import Twoda
 #############################
 config_file_path = "/changeme/"
 config_filename = "config.txt"
-geolocation=True
+geolocation = True
 #############################
 
 # Script version
@@ -71,6 +74,29 @@ def delay(seconds):
     time_to_sleep = randint(1, seconds)
     print("[*] Sleeping {} seconds...".format(time_to_sleep))
     sleep(time_to_sleep)
+
+
+def display_results(response):
+    """
+    Display the rweet URL and geolocation of the tweet
+    :param response:  The requests response from Twitter
+    """
+    response_json = response.json()
+    # Display some additional information regarding the tweet
+    tweet_id = response_json['id']
+    if 'screen_name' in response_json:
+        screen_name = response_json['screen_name'].encode('utf-8')
+    else:
+        screen_name = response_json['user']['screen_name'].encode('utf-8')
+
+    # Display tweet URL
+    print("[+] Tweet URL: https://twitter.com/{}/status/{}".format(screen_name, tweet_id))
+
+    # Display geolocation
+    if response_json['place']:
+        if response_json['place']['full_name']:
+            location = response_json['place']['full_name'].encode('utf-8')
+            print("[+] Location: {}".format(location))
 
 
 def run(tweet_image):
@@ -93,8 +119,10 @@ def run(tweet_image):
     print("[+] Generated tweet: {}".format(tweet))
     print("[*] Posting tweet to Twitter...")
     response = tw.post_tweet(tweet=tweet, media_id=media_id, geolocation=geolocation)
+
     if response.status_code == 200:
         print("[+] Tweet posted successfully")
+        display_results(response)
     else:
         print("[-] Tweet post failed")
 
