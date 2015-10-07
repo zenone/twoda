@@ -4,7 +4,7 @@ Twoda is a play on the words, *Twitter* and *Yoda*.
 
 So, what exactly is Twoda?
 
-I wrote a blog post titled, "[The Force Awakens ... on Twitter](http://blog.zenone.org/2015/10/the-force-awakens-on-twitter.html)". The post describes how I was used Markov Chains to generate tweets that blended quotes from Yoda with the wisdom of various Zen masters. It all began as a Saturday morning, "Hmmmm... I should try this." The result; the code in this repository, called Twoda, and the resulting [@YodaUncut](https://twitter.com/yodauncut) parody account.
+On 2015-10-04 I wrote a blog post titled, "[The Force Awakens ... on Twitter](http://blog.zenone.org/2015/10/the-force-awakens-on-twitter.html)". The post describes how I used Markov Chains to generate tweets that blended quotes from Yoda with the wisdom of various Zen masters. It all began as a Saturday morning, "Hmmmm... I should try this." The result; the code in this repository, called Twoda, and the resulting [@YodaUncut](https://twitter.com/yodauncut) parody account.
 
 Requirements
 ===========
