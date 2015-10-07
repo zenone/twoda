@@ -1,0 +1,18 @@
+fill this
+text
+file
+with
+your
+hashtags
+Every hashtag
+is
+on
+a newline
+Spces will automatically be removed
+Use hashtags
+that are
+relevant
+to the sources you're
+quoting from in your
+quote
+files
