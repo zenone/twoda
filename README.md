@@ -53,7 +53,6 @@ In the subdirectory `data/` is a file called `config.txt`. The items in the conf
     twitter_client_secret:<PUT_YOUR_TWITTER_CLIENT_SECRET_HERE>
     twitter_token:<PUT_YOUR_TWITTER_TOKEN_HERE>
     twitter_token_secret:<PUT_YOUR_TWITTER_TOKEN_SECRET_HERE>
-    user-agent:Twoda v1.0
 
 You'll want to change replace everything in between the `<` and `>` symbols, including the symbols. For example:
 
