@@ -8,7 +8,7 @@ Twoda generates, and posts, amusing tweets using a Markcov Chain. Twoda can also
 
 On 2015-10-04 I wrote a blog post titled, "[The Force Awakens ... on Twitter](http://blog.zenone.org/2015/10/the-force-awakens-on-twitter.html)". The post describes how I used Markov Chains to generate tweets that blended quotes from Yoda with the wisdom of various Zen masters. It all began as a Saturday morning, "Hmmmm... I should try this." The result; the code in this repository, called Twoda, that I quickly creatd ... and the resulting [@YodaUncut](https://twitter.com/yodauncut) parody account.
 
-> Please review and [Twitter's Terms of Service](https://twitter.com/tos) before using Twoda. 
+> Please review [Twitter's Terms of Service](https://twitter.com/tos) before using Twoda. 
 > 
 > Twoda is like Burger King, "*have it your way, but don't go crazy*".
 > Do *not* abuse this with Twitter.
