@@ -130,7 +130,7 @@ class Twoda(object):
         f.close()
         results = []
         for i in xrange(0, count):
-            random_hashtag = choice(xrange(0, len(hashtags) - 1))
+            random_hashtag = choice(hashtags)
             results.append("#" + (hashtags.pop(random_hashtag)).title().replace(' ', ''))
         results.append(self.default_hashtag)
         return " ".join(results)
@@ -144,7 +144,7 @@ class Twoda(object):
         f = open(self.hashtags_file, 'rb')
         hashtags = f.read().splitlines()
         f.close()
-        random_hashtag = choice(xrange(0, len(hashtags) - 1))
+        random_hashtag = choice(hashtags)
         search_terms = [self.default_image_search, hashtags.pop(random_hashtag).title()]
 
         # Make the URL
