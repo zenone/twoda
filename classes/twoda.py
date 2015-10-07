@@ -19,7 +19,7 @@
 
 
 """
-Python module to upload content to Twitter for parody accounts
+Python module to generate and upload content to Twitter for parody accounts
 """
 
 
@@ -131,7 +131,8 @@ class Twoda(object):
         results = []
         for i in xrange(0, count):
             random_hashtag = choice(hashtags)
-            results.append("#" + (hashtags.pop(random_hashtag)).title().replace(' ', ''))
+            results.append("#" + random_hashtag.title().replace(' ', ''))
+            hashtags.remove(random_hashtag)
         results.append(self.default_hashtag)
         return " ".join(results)
 
@@ -141,11 +142,12 @@ class Twoda(object):
         :return:
         """
 
+        # Build Giphy search term
         f = open(self.hashtags_file, 'rb')
         hashtags = f.read().splitlines()
         f.close()
         random_hashtag = choice(hashtags)
-        search_terms = [self.default_image_search, hashtags.pop(random_hashtag).title()]
+        search_terms = [self.default_image_search, random_hashtag.title()]
 
         # Make the URL
         api_url = base_giphy_url
@@ -159,7 +161,6 @@ class Twoda(object):
         for result in response_json['data']:
             images.append(result['images']['original']['url'])
         random_image_url = choice(images)
-        # print("[+] Selected random URL (of {}): {}".format(len(response_json['data']), random_image_url))
 
         # Download image
         r = requests.get(random_image_url, headers=self.user_agent, timeout=5, stream=True)
