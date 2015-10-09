@@ -172,6 +172,7 @@ class Twoda(object):
             images = []
             for result in response_json['data']:
                 images.append(result['images']['original']['url'])
+
             # If the search returned zero results, try another search
             if len(images) > 0:
                 break
