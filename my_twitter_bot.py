@@ -131,7 +131,7 @@ def run(tweet_image):
     # Post tweet to Twitter
     print("[+] Generated tweet: {}".format(tweet))
     print("[*] Posting tweet to Twitter...")
-    response = tw.post_tweet(tweet=tweet, media_id=media_id, geolocation=geolocation)
+    response = tw.post_tweet(tweet=tweet, media_id=media['media_id'], geolocation=geolocation)
 
     # Print status of the tweet
     if response.status_code == 200:
