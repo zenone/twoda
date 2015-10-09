@@ -76,12 +76,12 @@ def delay(seconds):
     sleep(time_to_sleep)
 
 
-def display_results(response):
+def display_results(response_json):
     """
     Display the tweet URL and geolocation of the tweet
     :param response:  The requests response from Twitter
     """
-    response_json = response.json()
+
     # Display some additional information regarding the tweet
     tweet_id = response_json['id']
     if 'screen_name' in response_json:
@@ -119,7 +119,8 @@ def run(tweet_image):
         # Upload image to Twitter
         print("[*] Uploading animated GIF to Twitter...")
         media = tw.upload_image(img['image'])
-        print("[+] Media ID: {}".format(media['media_id']))
+        media_id = media['media_id']
+        print("[+] Media ID: {}".format(media_id))
         twt = tw.generate_hashtags()
         tweet = " ".join(twt['hashtags'])
 
@@ -131,12 +132,12 @@ def run(tweet_image):
     # Post tweet to Twitter
     print("[+] Generated tweet: {}".format(tweet))
     print("[*] Posting tweet to Twitter...")
-    response = tw.post_tweet(tweet=tweet, media_id=media['media_id'], geolocation=geolocation)
+    results = tw.post_tweet(tweet=tweet, media_id=media_id, geolocation=geolocation)
 
     # Print status of the tweet
-    if response.status_code == 200:
+    if results['status_code'] == 200:
         print("[+] Tweet posted successfully")
-        display_results(response)
+        display_results(results['response'])
     else:
         print("[-] Tweet post failed")
 
