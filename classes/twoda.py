@@ -93,7 +93,11 @@ class Twoda(object):
         quotes = " ".join(quotes_list)
         markcov_dict = Twoda.create_markcov_dict(quotes)
         tweet = Twoda.create_markcov_tweet(markcov_dict)
-        return tweet
+
+        # Return results
+        return {'success': True,
+                'tweet': tweet
+                }
 
     def post_tweet(self, tweet, media_id=None, geolocation=False):
         """
@@ -115,8 +119,10 @@ class Twoda(object):
         if media_id:
             api_url += "&media_ids={}".format(media_id)
 
-        # tweet
+        # Post the tweet
         response = requests.post(api_url, headers=self.user_agent, auth=self.oauth)
+
+        # Return results
         return response
 
     def generate_hashtags(self, count=3):
@@ -125,6 +131,7 @@ class Twoda(object):
         :param count:
         :return:
         """
+
         f = open(self.hashtags_file, 'rb')
         hashtags = f.read().splitlines()
         f.close()
@@ -134,7 +141,11 @@ class Twoda(object):
             results.append("#" + random_hashtag.title().replace(' ', ''))
             hashtags.remove(random_hashtag)
         results.append(self.default_hashtag)
-        return " ".join(results)
+
+        # Return results
+        return {'success': True,
+                'hashtags': results
+                }
 
     def get_animated_gif(self):
         """
@@ -142,24 +153,30 @@ class Twoda(object):
         :return:
         """
 
-        # Build Giphy search term
-        f = open(self.hashtags_file, 'rb')
-        hashtags = f.read().splitlines()
-        f.close()
-        random_hashtag = choice(hashtags)
-        search_terms = [self.default_image_search, random_hashtag.title()]
+        while True:
+            # Build Giphy search term
+            f = open(self.hashtags_file, 'rb')
+            hashtags = f.read().splitlines()
+            f.close()
+            random_hashtag = choice(hashtags)
+            search_terms = [self.default_image_search, random_hashtag.title()]
 
-        # Make the URL
-        api_url = base_giphy_url
-        api_url += "?api_key={}".format(self.giphy_api_key)
-        api_url += "&q={}".format(" ".join(search_terms))
+            # Make the URL
+            api_url = base_giphy_url
+            api_url += "?api_key={}".format(self.giphy_api_key)
+            api_url += "&q={}".format(" ".join(search_terms))
 
-        # Query Giphy and get random URL of a relevant image
-        response = requests.get(api_url, headers=self.user_agent)
-        response_json = response.json()
-        images = []
-        for result in response_json['data']:
-            images.append(result['images']['original']['url'])
+            # Query Giphy and get random URL of a relevant image
+            response = requests.get(api_url, headers=self.user_agent)
+            response_json = response.json()
+            images = []
+            for result in response_json['data']:
+                images.append(result['images']['original']['url'])
+            # If the search returned zero results, try another search
+            if len(images) > 0:
+                break
+
+        # Select a random image
         random_image_url = choice(images)
 
         # Download image
@@ -167,7 +184,13 @@ class Twoda(object):
         r.raw.decode_content = True
         buf = StringIO()
         shutil.copyfileobj(r.raw, buf)
-        return buf
+
+        # Return results
+        return {'success': True,
+                'search_terms': search_terms,
+                'url': random_image_url,
+                'image': base64.b64encode(buf.getvalue())
+                }
 
     def upload_image(self, image):
         """
@@ -178,12 +201,16 @@ class Twoda(object):
 
         # Make the URL
         api_url = "{}media/upload.json".format(base_twitter_media_url)
-        payload = {'media_data': base64.b64encode(image.getvalue())}
+        payload = {'media_data': image}
         payload = urllib.urlencode(payload)
 
         # Upload to Twitter
         response = requests.post(api_url, headers=self.user_agent, auth=self.oauth, data=payload)
-        return response.json()['media_id']
+
+        # Return results
+        return {'success': True,
+                'media_id': response.json()['media_id']
+                }
 
     def get_trending(self, woeid=2458410):
         """
@@ -208,7 +235,11 @@ class Twoda(object):
                     trending_hashtags.append(trend.encode('utf-8'))
         else:
             trending_hashtags.append('#starwars')
-        return trending_hashtags
+
+        # Return results
+        return {'success': True,
+                'trending': trending_hashtags
+                }
 
     @staticmethod
     def get_geolocation():

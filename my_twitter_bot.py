@@ -78,7 +78,7 @@ def delay(seconds):
 
 def display_results(response):
     """
-    Display the rweet URL and geolocation of the tweet
+    Display the tweet URL and geolocation of the tweet
     :param response:  The requests response from Twitter
     """
     response_json = response.json()
@@ -105,21 +105,35 @@ def run(tweet_image):
     :param tweet_image:  If True, this script will tweet an image
     """
 
+    # Set things up
     media_id = None
     tw = Twoda(config_file_path, config_filename)
+
     if tweet_image:
+        # Get image from Giphy
         print("[*] Getting animated GIF from Giphy...")
-        image = tw.get_animated_gif()
+        img = tw.get_animated_gif()
+        print("[+] Giphy search terms used: {}".format(" ".join(img['search_terms'])))
+        print("[+] Source image URL: {}".format(img['url']))
+
+        # Upload image to Twitter
         print("[*] Uploading animated GIF to Twitter...")
-        media_id = tw.upload_image(image)
-        print("[+] Media ID: {}".format(media_id))
-        tweet = tw.generate_hashtags()
+        media = tw.upload_image(img['image'])
+        print("[+] Media ID: {}".format(media['media_id']))
+        twt = tw.generate_hashtags()
+        tweet = " ".join(twt['hashtags'])
+
     else:
-        tweet = tw.generate_tweet()
+        # Generate Tweet verbiage
+        twt = tw.generate_tweet()
+        tweet = twt['tweet']
+
+    # Post tweet to Twitter
     print("[+] Generated tweet: {}".format(tweet))
     print("[*] Posting tweet to Twitter...")
     response = tw.post_tweet(tweet=tweet, media_id=media_id, geolocation=geolocation)
 
+    # Print status of the tweet
     if response.status_code == 200:
         print("[+] Tweet posted successfully")
         display_results(response)
