@@ -19,7 +19,7 @@
 # Github Repository:
 #  - https://github.com/zenone/twoda
 #
-# Written by Steve Zenone on 2015-10-06
+# Written by Zenone on 2015-10-06
 
 
 """Usage:
