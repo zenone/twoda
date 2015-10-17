@@ -15,7 +15,7 @@
 # Github Repository:
 #  - https://github.com/zenone/twoda
 #
-# Written by Steve Zenone on 2015-10-06
+# Written by Zenone on 2015-10-06
 
 
 """
@@ -80,7 +80,7 @@ class Twoda(object):
     def generate_tweet(self):
         """
         This function orchestrates the creation of the tweet
-        :return:  Retunrs the tweet as a string
+        :return:  Returns a dict with the tweet in key 'tweet'
         """
 
         quotes_list = []
@@ -106,7 +106,7 @@ class Twoda(object):
         :param tweet:  The tweet to post
         :param media_id:  ID number of media [optional]
         :param tweet:  The text to tweet
-        :return:  Return the response from requests.post()
+        :return:  Returns a dict with the response in key 'response'
         """
 
         # Make the URL
@@ -123,13 +123,16 @@ class Twoda(object):
         response = requests.post(api_url, headers=self.user_agent, auth=self.oauth)
 
         # Return results
-        return response
+        return {'success': True,
+                'status_code': response.status_code,
+                'response': response.json()
+                }
 
     def generate_hashtags(self, count=3):
         """
         This function generates relevant hashtags for image tweets
-        :param count:
-        :return:
+        :param count:  The number of random hashtags to return
+        :return:  Returns a dict with the hashtags in key 'hashtags'
         """
 
         f = open(self.hashtags_file, 'rb')
@@ -150,7 +153,7 @@ class Twoda(object):
     def get_animated_gif(self):
         """
         This will download an relevant image from giphy
-        :return:
+        :return:  Returns a dict with the base64 encoded image in key 'image'
         """
 
         while True:
@@ -197,7 +200,7 @@ class Twoda(object):
         """
         This function posts the image from Giphy to Twitter
         :param image:  The raw data of the image to upload
-        :return:  Return the response from requests.post()
+        :return:  Returns a dict with the Twitte media ID in key 'media_id'
         """
 
         # Make the URL
@@ -217,7 +220,7 @@ class Twoda(object):
         """
         This function will get the latest trending items on twitter
         :param woeid:  1 = global, "2458410" = United States
-        :return:  Returns a list with the latest trending hashtags
+        :return:  Returns a dict with trending hashtags in key 'trending'
         """
 
         # Make the URL
@@ -260,7 +263,7 @@ class Twoda(object):
         This function takes the quotes and creates a dictionary with the words
         in Markcov chunks
         :param original_text:  The plaintext to chunck up
-        :return:  Return the dictionary with Markcov chunks
+        :return:  Returns a dict with Markcov chunks
         """
 
         original_text = original_text
@@ -280,7 +283,7 @@ class Twoda(object):
         """
         This function creates the Tweet using the Markov Chain
         :param markcov_dict:  The dictionary with the text in Markcov chunks
-        :return:  Return the tweet
+        :return:  Return the generated tweet as str
         """
 
         # Pick a random starting point
@@ -298,12 +301,8 @@ class Twoda(object):
                 selected_words_tuple = (selected_words_tuple[1], next_word)
             else:
                 tweet = " ".join(markcov_tweet).strip()
-                if tweet.endswith(","):
+                if tweet[-1] in (','):
                     tweet = tweet.rstrip(',') + '.'
-                elif not (tweet.endswith(".") or
-                          tweet.endswith("!") or
-                          tweet.endswith("?") or
-                          tweet.endswith(";") or
-                          tweet.endswith(":")):
+                elif not tweet[-1] in ('.', '!', '?', ';', ':'):
                     tweet += '.'
                 return tweet
